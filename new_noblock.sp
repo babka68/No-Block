@@ -1,19 +1,22 @@
+#pragma semicolon 1
+#pragma newdecls required
+
 #include <sourcemod>
 
-public Plugin:myinfo = 
+public Plugin myinfo = 
 {
-	name = "No Block",
+	name = "new_noblock",
 	author = "sslice,babka68",
 	description = "Плагин позволяет игрокам проходить друг друга на сквозь",
 	version = "1.1",
 	url = "https://hlmod.ru/"
 };
 
-new g_offsCollisionGroup;
-new bool:g_isHooked;
-new Handle:sm_noblock;
+int g_offsCollisionGroup;
+bool g_isHooked;
+Handle sm_noblock;
 
-public OnPluginStart()
+public void OnPluginStart()
 {
 	g_offsCollisionGroup = FindSendPropInfo("CBaseEntity", "m_CollisionGroup");
 	if (g_offsCollisionGroup == -1)
@@ -28,13 +31,12 @@ public OnPluginStart()
 
 		sm_noblock = CreateConVar("sm_noblock", "1", "1 включает,0 отключает столкновение с игроками", FCVAR_NOTIFY|FCVAR_REPLICATED);
 		HookConVarChange(sm_noblock, OnConVarChange);
-		AutoExecConfig(true, "noblock"); // AutoExecConfig Создает конфиг по пути /cfg/sourcemod с название noblock.
 	}
 }
 
-public OnConVarChange(Handle:convar, const String:oldValue[], const String:newValue[])
+public void OnConVarChange(Handle hCvar, const char[] Value, const char[] intValue)
 {
-	new value = !!StringToInt(newValue);
+	int value = !!StringToInt(intValue);
 	if (value == 0)
 	{
 		if (g_isHooked == true)
@@ -52,10 +54,10 @@ public OnConVarChange(Handle:convar, const String:oldValue[], const String:newVa
 	}
 }
 
-public OnSpawn(Handle:event, const String:name[], bool:dontBroadcast)
+public void OnSpawn(Handle event, const char[] name, bool dontBroadcast)
 {
-	new userid = GetEventInt(event, "userid");
-	new entity = GetClientOfUserId(userid);
+	int userid = GetEventInt(event, "userid");
+	int entity = GetClientOfUserId(userid);
 	
 	SetEntData(entity, g_offsCollisionGroup, 2, 4, true);
 }
