@@ -3,10 +3,10 @@
 
 public Plugin myinfo =  {
 	name = "No Block", 
-	author = "sslice,babka68", 
+	author = "sslice, babka68", 
 	description = "Плагин позволяет игрокам проходить друг друга на сквозь", 
 	version = "1.1", 
-	url = "https://hlmod.ru/", 
+	url = "https://vk.com/zakazserver68", 
 };
 
 int g_ioffsCollisionGroup;
@@ -22,7 +22,7 @@ public void OnPluginStart() {
 	else {
 		g_bHooked = true;
 		HookEvent("player_spawn", OnSpawn, EventHookMode_Post);
-		g_hnoBlock = CreateConVar("sm_noblock", "1", "1 включает,0 отключает столкновение с игроками", FCVAR_REPLICATED);
+		g_hnoBlock = CreateConVar("sm_noblock", "1", "1 - Включить,0 - Отключить столкновение с игроками.", FCVAR_REPLICATED);
 		HookConVarChange(g_hnoBlock, OnConVarChange);
 	}
 }
