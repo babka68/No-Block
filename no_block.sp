@@ -4,7 +4,6 @@
 
 #define	COLLISION_GROUP_DEBRIS_TRIGGER  2	// То же, что и мусор, но попадает в триггеры
 #define	COLLISION_GROUP_INTERACTIVE 	4	// Сталкивается со всем, кроме взаимодействие мусора или мусора
-#define	COLLISION_GROUP_PLAYER 			5	// Столкновение группы людей
 
 public Plugin myinfo =  {
 	name = "No Block", 
@@ -55,9 +54,6 @@ public void Event_Callback_Spawn(Event event, const char[] name, bool dontBroadc
 		if (entity != 0 && IsValidEntity(entity)) {
 			No_Block(entity);
 		}
-		else {
-			Block(entity);
-		}
 	}
 }
 
@@ -71,9 +67,6 @@ public void OnEntityCreated(int entity, const char[] classname) {
 			if (strcmp(classname, "hegrenade_projectile") || strcmp(classname, "flashbang_projectile") || strcmp(classname, "smokegrenade_projectile")) {
 				No_Block(entity);
 			}
-			else {
-				Block(entity);
-			}
 		}
 	}
 }
@@ -81,12 +74,4 @@ public void OnEntityCreated(int entity, const char[] classname) {
 // Нет столкновение игроков друг с другом и с гранатами.
 void No_Block(int client) {
 	SetEntData(client, g_iOffsCollisionGroup, COLLISION_GROUP_DEBRIS_TRIGGER, COLLISION_GROUP_INTERACTIVE, true);
-	
 }
-
-// Есть столкновение игроков друг с другом и с гранатами.
-void Block(int client) {
-	if (!g_bEnable_No_Block && !g_bEnable_No_Block_Grenades) {
-		SetEntData(client, g_iOffsCollisionGroup, COLLISION_GROUP_INTERACTIVE, COLLISION_GROUP_PLAYER, true);
-	}
-} 
