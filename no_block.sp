@@ -1,4 +1,3 @@
-
 #pragma semicolon 1
 #pragma newdecls required
 
@@ -63,8 +62,7 @@ public void OnEntityCreated(int entity, const char[] classname) {
 		// Перед использованием или убийством сущности убедитесь, что она действительна с помощью IsValidEntity();
 		// - Обязательно проверяйте на ноль if(entity != 0) или просто if(entity), потому что 0 (на выделенном сервере) - это сущность worldspawn и является действительной, таким образом вы можете мгновенно обвалить сервер.
 		if (entity != 0 && IsValidEntity(entity)) {
-			// strcmp - Сравниваем 2 строки лексикографически
-			if (strcmp(classname, "hegrenade_projectile") || strcmp(classname, "flashbang_projectile") || strcmp(classname, "smokegrenade_projectile")) {
+			if (StrEqual(classname, "hegrenade_projectile") || StrEqual(classname, "flashbang_projectile") || StrEqual(classname, "smokegrenade_projectile")) {
 				No_Block(entity);
 			}
 		}
@@ -74,4 +72,4 @@ public void OnEntityCreated(int entity, const char[] classname) {
 // Нет столкновение игроков друг с другом и с гранатами.
 void No_Block(int client) {
 	SetEntData(client, g_iOffsCollisionGroup, COLLISION_GROUP_DEBRIS_TRIGGER, COLLISION_GROUP_INTERACTIVE, true);
-}
+} 
